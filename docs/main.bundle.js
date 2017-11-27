@@ -209,7 +209,7 @@ AboutComponent = __decorate([
 /***/ "../../../../../src/app/components/buscar/buscar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Buscando: <small>{{ termino }}</small> </h1>\n<hr>\n<div class=\"row animated fadeIn Fast\" *ngIf=\"heroes.length == 0\">\n  <div class=\"col-md-12\">\n    <div class=\"alert alert-info\" role=\"alert\">\n      No existen resultados con el término: {{ termino }}\n    </div>\n  </div>\n</div>\n<div class=\"card-columns\">\n  <div class=\"card animated fadeIn fast\" *ngFor=\"let heroe of heroes; let i = index\">\n    <img class=\"card-img-top\" [src]=\"heroe.img\" [alt]=\"heroe.nombre\">\n    <div class=\"card-body\">\n      <h4 class=\"card-title\">{{ heroe.nombre }}</h4>\n      <p class=\"card-text\">{{ heroe.bio }}</p>\n      <p class=\"card-text\"><small class=\"text-muted\">{{ heroe.aparicion }}</small></p>\n      <button (click)=\"verHeroe(i)\" type=\"button\" class=\"btn btn-outline-primary btn-block\"> Ver más...</button>\n      <!-- <a [routerLink]=\"['/heroe','i']\" class=\"btn btn-outline-primary btn-block\">Ver más Link...</a> -->\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row animated fadeIn fast\">\n  <div class=\"col-md-9\">\n    <h1>Buscando: <small>{{ termino }}</small> </h1>\n  </div>\n  <div class=\"col-md-3 text-right\">\n    <button type=\"button\" class=\"btn btn-outline-danger btn-block\" [routerLink]=\"['/heroes']\">Volver</button>\n  </div>\n</div>\n<hr>\n<div class=\"row animated fadeIn\" *ngIf=\"heroes.length == 0\">\n  <div class=\"col-md-12\">\n    <div class=\"alert alert-info\" role=\"alert\">\n      No existen resultados con el término: {{ termino }}\n    </div>\n  </div>\n</div>\n<div class=\"card-columns\">\n  <div class=\"card animated fadeIn fast\" *ngFor=\"let heroe of heroes\">\n    <img class=\"card-img-top\" [src]=\"heroe.img\" [alt]=\"heroe.nombre\">\n    <div class=\"card-body\">\n      <h4 class=\"card-title\">{{ heroe.nombre }}</h4>\n      <p class=\"card-text\">{{ heroe.bio }}</p>\n      <p class=\"card-text\"><small class=\"text-muted\">{{ heroe.aparicion }}</small></p>\n      <button (click)=\"verHeroe(heroe.codigo)\" type=\"button\" class=\"btn btn-outline-primary btn-block\"> Ver más...</button>\n      <!-- <a [routerLink]=\"['/heroe','i']\" class=\"btn btn-outline-primary btn-block\">Ver más Link...</a> -->\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -234,9 +234,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var BuscarComponent = (function () {
-    function BuscarComponent(activatedRoute, _heroesService) {
+    function BuscarComponent(activatedRoute, _heroesService, router) {
         this.activatedRoute = activatedRoute;
         this._heroesService = _heroesService;
+        this.router = router;
         this.heroes = [];
     }
     BuscarComponent.prototype.ngOnInit = function () {
@@ -246,6 +247,10 @@ var BuscarComponent = (function () {
             _this.heroes = _this._heroesService.buscarHeroes(params['termino']);
         });
     };
+    BuscarComponent.prototype.verHeroe = function (codigo) {
+        this.router.navigate(['/heroe', codigo]);
+        console.log(codigo);
+    };
     return BuscarComponent;
 }());
 BuscarComponent = __decorate([
@@ -254,10 +259,10 @@ BuscarComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/components/buscar/buscar.component.html"),
         styles: []
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__servicios_heroes_service__["a" /* HeroesService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__servicios_heroes_service__["a" /* HeroesService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__servicios_heroes_service__["a" /* HeroesService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__servicios_heroes_service__["a" /* HeroesService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _c || Object])
 ], BuscarComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=buscar.component.js.map
 
 /***/ }),
@@ -265,7 +270,7 @@ var _a, _b;
 /***/ "../../../../../src/app/components/heroe/heroe.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1 class=\"animated fadeIn\">{{ heroe.nombre | uppercase }} <small>({{ heroe.aparicion | date:'y' }})</small> </h1>\n<hr>\n<div class=\"row animated fadeIn fast\">\n  <div class=\"col-md-4\">\n    <img [src]=\"heroe.img\" class=\"img-fluid\" alt=\"\">\n    <br><br>\n    <a [routerLink]=\"['/heroes']\" class=\"btn btn-outline-danger btn-block\">Regresar</a>\n  </div>\n  <div class=\"col-md-8\">\n    <h3>{{ heroe.nombre }}</h3>\n    <hr>\n    <p>{{ heroe.bio }}</p>\n    <div class=\"text-center\">\n      <img *ngIf=\"heroe.casa == 'Marvel'\" width=\"200px\" src=\"assets/img/marvel.png\" alt=\"\">\n      <img *ngIf=\"heroe.casa == 'DC'\" width=\"200px\" src=\"assets/img/dc.png\" alt=\"\">\n    </div>\n  </div>\n</div>\n"
+module.exports = "<h1 class=\"animated fadeIn\">{{ heroe.nombre | uppercase }} <small>({{ heroe.aparicion | date:'y' }})</small> </h1>\n<hr>\n<div class=\"row animated fadeIn fast\">\n  <div class=\"col-md-4\">\n    <img [src]=\"heroe.img\" class=\"img-fluid\" alt=\"\">\n    <br><br>\n    <a [routerLink]=\"['/heroes']\" class=\"btn btn-outline-danger btn-block\">Regresar</a>\n    <br>\n  </div>\n  <div class=\"col-md-8\">\n    <h3>{{ heroe.nombre }}</h3>\n    <hr>\n    <p>{{ heroe.bio }}</p>\n    <div class=\"text-center\">\n      <img *ngIf=\"heroe.casa == 'Marvel'\" width=\"200px\" src=\"assets/img/marvel.png\" alt=\"\">\n      <img *ngIf=\"heroe.casa == 'DC'\" width=\"200px\" src=\"assets/img/dc.png\" alt=\"\">\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -482,6 +487,7 @@ var HeroesService = (function () {
     function HeroesService() {
         this.heroes = [
             {
+                codigo: "0",
                 nombre: "Aquaman",
                 bio: "El poder más reconocido de Aquaman es la capacidad telepática para comunicarse con la vida marina, la cual puede convocar a grandes distancias.",
                 img: "assets/img/aquaman.png",
@@ -489,6 +495,7 @@ var HeroesService = (function () {
                 casa: "DC"
             },
             {
+                codigo: "1",
                 nombre: "Batman",
                 bio: "Los rasgos principales de Batman se resumen en «destreza física, habilidades deductivas y obsesión». La mayor parte de las características básicas de los cómics han variado por las diferentes interpretaciones que le han dado al personaje.",
                 img: "assets/img/batman.png",
@@ -496,6 +503,7 @@ var HeroesService = (function () {
                 casa: "DC"
             },
             {
+                codigo: "2",
                 nombre: "Daredevil",
                 bio: "Al haber perdido la vista, los cuatro sentidos restantes de Daredevil fueron aumentados por la radiación a niveles superhumanos, en el accidente que tuvo cuando era niño. A pesar de su ceguera, puede \"ver\" a través de un \"sexto sentido\" que le sirve como un radar similar al de los murciélagos.",
                 img: "assets/img/daredevil.png",
@@ -503,6 +511,7 @@ var HeroesService = (function () {
                 casa: "Marvel"
             },
             {
+                codigo: "3",
                 nombre: "Hulk",
                 bio: "Su principal poder es su capacidad de aumentar su fuerza hasta niveles prácticamente ilimitados a la vez que aumenta su furia. Dependiendo de qué personalidad de Hulk esté al mando en ese momento (el Hulk Banner es el más débil, pero lo compensa con su inteligencia).",
                 img: "assets/img/hulk.png",
@@ -510,6 +519,7 @@ var HeroesService = (function () {
                 casa: "Marvel"
             },
             {
+                codigo: "4",
                 nombre: "Linterna Verde",
                 bio: "Poseedor del anillo de poder que posee la capacidad de crear manifestaciones de luz sólida mediante la utilización del pensamiento. Es alimentado por la Llama Verde (revisada por escritores posteriores como un poder místico llamado Starheart), una llama mágica contenida en dentro de un orbe (el orbe era en realidad un meteorito verde de metal que cayó a la Tierra, el cual encontró un fabricante de lámparas llamado Chang)",
                 img: "assets/img/linterna-verde.png",
@@ -517,6 +527,7 @@ var HeroesService = (function () {
                 casa: "DC"
             },
             {
+                codigo: "5",
                 nombre: "Spider-Man",
                 bio: "Tras ser mordido por una araña radiactiva, obtuvo los siguientes poderes sobrehumanos, una gran fuerza, agilidad, poder trepar por paredes. La fuerza de Spider-Man le permite levantar 10 toneladas o más. Gracias a esta gran fuerza Spider-Man puede realizar saltos íncreibles. Un \"sentido arácnido\", que le permite saber si un peligro se cierne sobre él, antes de que suceda. En ocasiones este puede llevar a Spider-Man al origen del peligro.",
                 img: "assets/img/spiderman.png",
@@ -524,6 +535,7 @@ var HeroesService = (function () {
                 casa: "Marvel"
             },
             {
+                codigo: "6",
                 nombre: "Wolverine",
                 bio: "En el universo ficticio de Marvel, Wolverine posee poderes regenerativos que pueden curar cualquier herida, por mortal que ésta sea, además ese mismo poder hace que sea inmune a cualquier enfermedad existente en la Tierra y algunas extraterrestres . Posee también una fuerza sobrehumana, que si bien no se compara con la de otros superhéroes como Hulk, sí sobrepasa la de cualquier humano.",
                 img: "assets/img/wolverine.png",
@@ -537,7 +549,12 @@ var HeroesService = (function () {
         return this.heroes;
     };
     HeroesService.prototype.getHeroe = function (idx) {
-        return this.heroes[idx];
+        for (var _i = 0, _a = this.heroes; _i < _a.length; _i++) {
+            var heroe = _a[_i];
+            if (heroe.codigo == idx) {
+                return heroe;
+            }
+        }
     };
     HeroesService.prototype.buscarHeroes = function (termino) {
         var heroesArr = [];
